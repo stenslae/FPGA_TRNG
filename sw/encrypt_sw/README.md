@@ -23,7 +23,7 @@ Takes file and uses a random key to encrypt the file in AES-128. Outputs the key
 2. In this directory, compile `encrypt.c` for the ARM CPU using the following:
 
 ```bash
-arm-linux-gnueabihf-gcc -o encrypt -Wall encyrpt_sw.c -lssl -lcrypto
+arm-linux-gnueabihf-gcc -o encrypt -Wall encrypt_sw.c -lssl -lcrypto
 ```
 
 3. Copy this compiled file into the mounted NFS Kernel `~` using the following:

@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <openssl/evp.h>
 
-#define ERR_BAD_OPTIONS 0
+#define ERR_BAD_OPT 0
 #define ERR_FILE_NOT_FOUND 1
 #define HELP_MSSG 2
 #define ERR_BAD_ENCRYPT 3
@@ -17,11 +17,12 @@ int encrypt(unsigned char *plaintext, int plaintext_len,
     unsigned char *key, unsigned char *iv, unsigned char *ciphertext);
 int decrypt(unsigned char *ciphertext, int ciphertext_len, 
     unsigned char *key, unsigned char *iv, unsigned char *plaintext);
+void print_errs(int errtype);
 
 int main(int argc, char *argv[]){
     // Check for user args
     if (argc == 1){
-        print_errs(ERR_BAD_OPTIONS);
+        print_errs(ERR_BAD_OPT);
     }
 
     // Parse user args using getopt
@@ -67,7 +68,7 @@ int main(int argc, char *argv[]){
     int ciphertext_len, decryptedtext_len;
 
     // Encrypt the plaintext
-    ciphertext_len = encrypt(plaintext, strlen(plaintext), 
+    ciphertext_len = encrypt(plaintext, strlen((char*) plaintext), 
         (unsigned char*) key, (unsigned char*) iv, ciphertext);
 
     // TODO: Save IV, KEY, and Cyphertext to output files.
@@ -120,7 +121,7 @@ int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key,
 
     // Create and initialise the context
     if(!(ctx = EVP_CIPHER_CTX_new())){
-        handleErrors();
+        print_errs(ERR_BAD_ENCRYPT);
     }
 
     // Initialise the encryption operation.
@@ -241,7 +242,7 @@ int arg_parse_client(int argc, char **argv, char **filename){
  * Return: void
  */
 void print_errs(int errtype){
-    if(errtype == ERR_BAD_OPTIONS){
+    if(errtype == ERR_BAD_OPT){
         printf("ERROR: Incorrect options.\n");
     }else if (errtype == ERR_FILE_NOT_FOUND){
         printf("ERROR: File not found.\n");
@@ -249,7 +250,7 @@ void print_errs(int errtype){
         printf("ERROR: Encryption/decryption process failed. Please try again.\n");
     }
 
-    if(errtype == ERR_BAD_OPTIONS || errtype == HELP_MSSG)(
+    if(errtype == ERR_BAD_OPT || errtype == HELP_MSSG){
         printf(
             "Usage:\n"
             "  ./encrypt [-f FILE]\n\n"
@@ -259,7 +260,7 @@ void print_errs(int errtype){
             "  -h                    show this help message and exit\n"
             "  -f FILE               specify a text file\n\n"
         );
-    );
+    };
 
     exit(0);
 }
