@@ -30,46 +30,41 @@ int main(int argc, char *argv[]){
     fread(plaintext, 1, file_size, fptr);
     plaintext[file_size] = '\0';
 
-
-    // TODO: DEBUG: hardcoded testing key, remove
-    uint32_t REG0_1 = 0x1234;
-    uint32_t REG1_1 = 0x5678;
-    uint32_t REG2_1 = 0x9abc;
-    uint32_t REG3_1 = 0xdef0;
-    uint32_t REG0_2 = 0x1234;
-    uint32_t REG1_2 = 0x5678;
-    uint32_t REG2_2 = 0x9abc;
-    uint32_t REG3_2 = 0x9def0;
-
-    memcpy(key, &REG0_1, 4);     
-    memcpy(key + 4, &REG1_1, 4);
-    memcpy(key + 8, &REG2_1, 4);     
-    memcpy(key + 12, &REG3_1, 4);
-    memcpy(iv, &REG0_2, 4);
-    memcpy(iv + 4, &REG1_2, 4);
-    memcpy(iv + 8, &REG2_2, 4);
-    memcpy(iv + 12, &REG3_2, 4);
-
-
-    // TODO: remove above debug and uncomment this (changing read_trng_register_from_driver() thing)
-
-    /* 
+    // Get values from memory register for encryption
     uint32_t read[8];
-
     for (int i=0; i<8; i++){
-        read[i] = read_trng_register_from_driver();
-        wait(1 ms);
+        //TODO: DEBUG
+        read[i]=0x12345678;
+        //read[i] = read_trng_register_from_driver();
+        usleep(100);
     } 
-    
-    memcpy(key, &read[7], 4);     
-    memcpy(key + 4, &read[6], 4);
-    memcpy(key + 8, &read[5], 4);     
-    memcpy(key + 12, &read[4], 4);
-    memcpy(iv, &read[3], 4);
-    memcpy(iv + 4, &read[2], 4);
-    memcpy(iv + 8, &read[1], 4);
-    memcpy(iv + 12, &read[0], 4);
-    */
+
+    // Build key
+    for (int i = 0; i < 4; i++) {
+        key[i*4 + 0] = (read[i] >> 24) & 0xFF;
+        key[i*4 + 1] = (read[i] >> 16) & 0xFF;
+        key[i*4 + 2] = (read[i] >> 8) & 0xFF;
+        key[i*4 + 3] = read[i] & 0xFF;
+    }
+
+    // Build IV
+    for (int i = 4; i < 8; i++) {
+        iv[(i - 4)*4 + 0] = (read[i] >> 24) & 0xFF;
+        iv[(i - 4)*4  + 1] = (read[i] >> 16) & 0xFF;
+        iv[(i - 4)*4 + 2] = (read[i] >> 8) & 0xFF;
+        iv[(i - 4)*4 +  3] = read[i] & 0xFF;
+    }
+
+    // DEBUG
+    printf("Key is:\n");
+    for (int i = 0; i < 16; i++){
+        printf("%02x", key[i]);
+    }
+    printf("\nIV is:\n");
+    for (int i = 0; i < 16; i++){
+        printf("%02x", iv[i]);
+    }
+    printf("\n");
 
     // Allocate ciphertext and decypted text, accounting for padding
     unsigned char* ciphertext = malloc(file_size + 16);
@@ -80,8 +75,26 @@ int main(int argc, char *argv[]){
     ciphertext_len = encrypt(plaintext, strlen((char*) plaintext), 
         (unsigned char*) key, (unsigned char*) iv, ciphertext);
 
-    // TODO: Save IV, KEY, and Cyphertext to output files.
     
+    // Save ciphertext,iv, and key to output bin
+    fptr = fopen("output/key.bin", "wb");
+    if(fptr==NULL){
+        print_errs(ERR_FILE_NOT_FOUND);
+    }
+    fprintf(fptr, (char*)key);
+    fclose(fptr);  
+    fptr = fopen("output/iv.bin", "wb");
+    if(fptr==NULL){
+        print_errs(ERR_FILE_NOT_FOUND);
+    }
+    fprintf(fptr, (char*)iv);
+    fclose(fptr);
+    fptr = fopen("output/ciphertext.bin", "wb");
+    if(fptr==NULL){
+        print_errs(ERR_FILE_NOT_FOUND);
+    }
+    fprintf(fptr, (char*)ciphertext);
+    fclose(fptr); 
 
     // Show the ecrypted text
     printf("Encrypted text is:\n");
