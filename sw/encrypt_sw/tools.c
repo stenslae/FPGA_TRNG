@@ -33,11 +33,10 @@ int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key,
     }
     EVP_CIPHER_CTX_set_padding(ctx, 1);
 
-    // TODO: DEBUG - Loop in chunks to encrypt full text
+    // Loop in chunks to encrypt full text
     int chunk_size = 1024;
     int offset = 0;
     while (offset < plaintext_len) {
-        // If
         int to_encrypt = (plaintext_len - offset > chunk_size) ? chunk_size : (plaintext_len - offset);
         if (1 != EVP_EncryptUpdate(ctx, ciphertext + ciphertext_len, &len, plaintext + offset, to_encrypt)){
             print_errs(ERR_BAD_ENCRYPT);
@@ -46,7 +45,7 @@ int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key,
         offset += to_encrypt;
     }
 
-    // Add the final part
+    // Add the final padding
     if(1 != EVP_EncryptFinal_ex(ctx, ciphertext + len, &len)){
         print_errs(ERR_BAD_ENCRYPT);
     }
@@ -89,12 +88,20 @@ int decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key,
     if(1 != EVP_DecryptInit_ex(ctx, EVP_aes_128_cbc(), NULL, key, iv)){
         print_errs(ERR_BAD_ENCRYPT);
     }
-
-    // TODO: loop to dynamically encrypt full text
-    if(1 != EVP_DecryptUpdate(ctx, plaintext, &len, ciphertext, ciphertext_len)){
-        print_errs(ERR_BAD_ENCRYPT);
+    
+    // Loop in blocks to encrypt full text
+    int chunk_size = 1024;
+    int offset = 0;
+    while (offset < ciphertext_len) {
+        int to_decrypt = (ciphertext_len - offset > chunk_size) ? chunk_size : (ciphertext_len - offset);
+        if (1 != EVP_DecryptUpdate(ctx, plaintext + plaintext_len, &len, ciphertext + offset, to_decrypt)){
+            print_errs(ERR_BAD_ENCRYPT);
+        }
+        plaintext_len += len;
+        offset += to_decrypt;
     }
-    plaintext_len = len;
+
+    // Add the final padding
     if(1 != EVP_DecryptFinal_ex(ctx, plaintext + len, &len)){
         print_errs(ERR_BAD_ENCRYPT);
     }

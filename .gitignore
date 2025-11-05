@@ -36,7 +36,6 @@ bin/
 *.app
 *.i?86
 *.x86_64
-*.hex
 
 # Debug files
 *.dSYM/
@@ -59,7 +58,7 @@ dkms.conf
 *_inst.vhd
 *.done
 *.eqn
-*.hex
+quartus/*.hex
 *.html
 *.jdi
 *.pin
