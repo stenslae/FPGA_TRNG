@@ -22,8 +22,12 @@ A system was implemented on a DE10-Nano to generate true random numbers on a 32 
 - [Project overview](../attacks/fault_injection/trng/README.md)
 - **Summary:**
 
+### Side Channel Attacks
+- [Project overview](../attacks/side_channel/trng/README.md)
+- **Summary:**
 
 ## Acknowledgements
 
-- Software Application #1 and the hardware implementation were developed by Emma Stensland at MSU Bozeman for the purposes of EELE 467.
+- [Encrypting files](#encryptingdecrypting-files-in-the-userspace) and the [hardware](#implementation) were developed by Emma Stensland at MSU Bozeman for the purposes of EELE 467.
 - The driver for the TRNG was developed by Luke Connoly at MSU Bozeman for the purposes of EELE 467.
+- See license and [Main Overview](../README.md) for repository acknowledgements.
