@@ -7,17 +7,9 @@
 #include <unistd.h>
 #include <openssl/evp.h>
 
-// hardcoded testing key.
-// TODO: need a bit of a delay so you get diffy trngs on read
-#define uint128_t HARDCODED_KEY = 0x123456789abcdef0;
-#define uint128_t HARDCODED_IV  = 0x123456789abcdef0;
-
-
 int arg_parse_client(int argc, char **argv, char **filename);
-int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key,
-            unsigned char *iv, unsigned char *ciphertext);
-int decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key,
-            unsigned char *iv, unsigned char *plaintext);
+int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key, unsigned char *iv, unsigned char *ciphertext);
+int decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key, unsigned char *iv, unsigned char *plaintext);
 
 int main(int argc, char *argv[]){
     // Check for user args
@@ -28,38 +20,44 @@ int main(int argc, char *argv[]){
     // Parse user args using getopt
     char *filename = NULL;
 
-    // Message to be encrypted
-    char *plaintext = NULL;
+    unsigned char *plaintext = NULL;
 
-    //TODO: retrieve iv and convert to char*
-    char *iv;
-    sprintf(iv, "%u", HARDCODED_IV);
-
-    FILE *fptr = fopen(*filename, "r");
+    FILE *fptr = fopen(filename, "r");
     if (fptr == NULL){
         print_errs(ERR_FILE_NOT_FOUND);
     }
 
     // Read through file and collect patterns
-    char temp[LINE_BUF_SIZE];
-    while (fgets(temp, sizeof(temp), fptr) != NULL){
-        
-    }
-    fclose(fptr);
+    fseek(fptr, 0, SEEK_END);
+    long file_size = ftell(fptr);
+    fseek(fptr, 0, SEEK_SET);
+
+    char *plaintext = malloc(file_size + 1);
+    fread(plaintext, 1, file_size, fptr);
+    plaintext[file_size] = '\0';
 
     //TODO: retrieve key and convert to char*
-    char *key;
-    sprintf(key, "%u", HARDCODED_KEY);
+    // hardcoded testing key.
+    // TODO: need a bit of a delay so you get diffy trngs on read
+    uint64_t REG0_1 = 0x12345678;
+    uint64_t REG1_1 = 0x9abcdef0;
+    uint64_t REG0_2 = 0x12345678;
+    uint64_t REG1_2 = 0x9abcdef0;
 
-    // Buffer for ciphertext. TODO: dynamically
-    unsigned char ciphertext[128];
-    unsigned char decyrptedtext[128];
+    unsigned char key[16];
+    unsigned char iv[16];
+    // TODO: for actual memory figure out big endian-ness
+    memcpy(key, &REG0_1, 8);     
+    memcpy(key + 8, &REG1_1, 8);
+    memcpy(iv, &REG0_2, 8);
+    memcpy(iv + 8, &REG1_2, 8);
 
-    // 
+    unsigned char* ciphertext;
+    unsigned char* decyrptedtext;
     int ciphertext_len, decyptedtext_len;
 
     // Encrypt the plaintext
-    ciphertext_len = encrypt(plaintext, strlen(plaintext), HARDCODED_KEY, HARDCODED_IV, ciphertext);
+    ciphertext_len = encrypt(plaintext, strlen(plaintext), (unsigned char*) HARDCODED_KEY, (unsigned char*) HARDCODED_IV, ciphertext);
 
     // TODO: Save IV, KEY, and Cyphertext to output files.
     
@@ -68,7 +66,7 @@ int main(int argc, char *argv[]){
     printf("%s\n", ciphertext);
 
     // Decrypt the ciphertext
-    decryptedtext_len = decrypt(ciphertext, ciphertext_len, HARDCODED_KEY, HARDCODED_IV, decryptedtext);
+    decryptedtext_len = decrypt(ciphertext, ciphertext_len, (unsigned char*) HARDCODED_KEY, (unsigned char*) HARDCODED_IV, decryptedtext);
 
     // Add a NULL terminator.
     decryptedtext[decryptedtext_len] = '\0';
@@ -81,8 +79,21 @@ int main(int argc, char *argv[]){
 
 }
 
-int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key,
-            unsigned char *iv, unsigned char *ciphertext){
+/**
+ * encrypt() - Uses openSSL library to decript cyphertext
+ * @*ciphertext: Number of user args
+ * @ciphertext_len: Length of ciphertext
+ * @*key: AES-128 key
+ * @**iv: AES-128 initialization vector
+ * @*plaintext: Points to *filename in main
+ *
+ * Initializes a EVP Cipher process to encrypt the ciphertext
+ * with the Key and IV using AES-128-CBC. Encrypts by going
+ * block by block.
+ *
+ * Return: 0
+ */
+int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key, unsigned char *iv, unsigned char *ciphertext){
     
     EVP_CIPHER_CTX *ctx;
     int len = 0;
@@ -114,17 +125,17 @@ int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key,
  * decrypt() - Uses openSSL library to decript cyphertext
  * @*ciphertext: Number of user args
  * @ciphertext_len: Length of ciphertext
- * @*key: AES-12
- * @**argv: User args
- * @**filename: Points to *filename in main
+ * @*key: AES-128 key
+ * @**iv: AES-128 initialization vector
+ * @*plaintext: Points to *filename in main
  *
- * Uses getopt() to read the user's input file option and 
- * saves it to *filename.
+ * Initializes a EVP Cipher process to decrypt the ciphertext
+ * with the Key and IV using AES-128-CBC. Decrypts by going
+ * block by block.
  *
  * Return: 0
  */
-int decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key,
-            unsigned char *iv, unsigned char *plaintext){
+int decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key, unsigned char *iv, unsigned char *plaintext){
     
     EVP_CIPHER_CTX *ctx;
 
