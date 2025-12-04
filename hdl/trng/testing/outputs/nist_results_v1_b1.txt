@@ -1,0 +1,92 @@
+Starting: monobit_test
+                Results (p-value(s), Pass/Fail) = 
+                        [0.0, False]
+Test completed in 0.0072002410888671875s
+
+
+Starting: frequency_within_block_test
+                Results (p-value(s), Pass/Fail) = 
+                        [np.float64(0.0), np.False_]
+Test completed in 0.00486445426940918s
+
+
+Starting: runs_test
+                Results (p-value(s), Pass/Fail) = 
+                        [0.9114851007163363, True]
+Test completed in 0.0075495243072509766s
+
+
+Starting: longest_run_within_block_test
+                Results (p-value(s), Pass/Fail) = 
+                        [np.float64(1.9536108870920873e-184), np.False_]
+Test completed in 0.011022329330444336s
+
+
+Starting: binary_matrix_rank_test
+                Results (p-value(s), Pass/Fail) = 
+                        [np.float64(0.4499249586791349), np.True_]
+Test completed in 0.07717275619506836s
+
+
+Starting: discrete_fourier_transform_test
+                Results (p-value(s), Pass/Fail) = 
+                        [0.0, False, np.float64(nan), np.False_]
+Test completed in 0.24791812896728516s
+
+
+Starting: non_overlapping_template_matching_test
+                Results (p-value(s), Pass/Fail) = 
+                        [[np.int64(0), True], [np.int64(148), False]]
+Test completed in 8.881526947021484s
+
+
+Starting: overlapping_template_matching_test
+                Results (p-value(s), Pass/Fail) = 
+                        [np.float64(0.0), np.False_]
+Test completed in 0.21151280403137207s
+
+
+Starting: maurers_universal_test
+                Results (p-value(s), Pass/Fail) = 
+                        [0.0, False]
+Test completed in 0.4407083988189697s
+
+
+Starting: linear_complexity_test
+                Results (p-value(s), Pass/Fail) = 
+                        [np.float64(0.8963882834992378), np.True_]
+Test completed in 0.26265549659729004s
+
+
+Starting: serial_test
+                Results (p-value(s), Pass/Fail) = 
+                        [np.float64(1.0), np.True_, np.float64(1.0), np.True_]
+Test completed in 0.3249177932739258s
+
+
+Starting: approximate_entropy_test
+                Results (p-value(s), Pass/Fail) = 
+                        [np.float64(0.0), np.False_]
+Test completed in 0.1875441074371338s
+
+
+Starting: cumulative_sums_test
+                Results (p-value(s), Pass/Fail) = 
+                        [np.float64(1.8489884339594058e-25), np.False_]
+Test completed in 0.06655383110046387s
+
+
+Starting: random_excursion_test
+                Results (p-value(s), Pass/Fail) = 
+                        [(np.float64(8.29133765144798e-26), np.False_), (np.float64(2.5094366189658927e-17), np.False_), (np.float64(2.669529300811192e-08), np.False_), (np.float64(0.001988059879109491), np.False_), (np.float64(1.0), np.True_), (np.float64(5.747429469811041e-12), np.False_), (np.float64(4.719364783424657e-08), np.False_), (np.float64(2.6562084678779267e-17), np.False_), (np.float64(4.604679334142537e-21), np.False_)]
+Test completed in 0.04032540321350098s
+
+
+Starting: random_excursion_variant_test
+                Results (p-value(s), Pass/Fail) = 
+                        [(0.5629628366104269, True), (0.5747531823749106, True), (0.48045108331681724, True), (0.415081735165374, True), (0.5247772510996042, True), (0.4585801559937699, True), (0.19236146439226035, True), (0.159256320125823, True), (0.1378097079808613, True), (0.9577319921718772, True), (0.3428319289803089, True), (0.5221977106006291, True), (0.7485793012620932, True), (0.6844982935312521, True), (0.5021167534234038, True), (0.44464359895211375, True), (0.5470951898590973, True), (0.6997700655048619, True)]
+Test completed in 0.049025535583496094s
+
+
+None
+Total runtime: 10.821837902069092
