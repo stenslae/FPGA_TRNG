@@ -2,7 +2,7 @@
 
 ## Overview
 
-The TRNG output is temporarily routed to a GPIO pin, and a LabJack T7-Pro is is used to sample that pin and collect 50M bits of data. The .data file full of the generated TRNGs is put through the NIST 800-22 STS to determine randomness levels.
+The TRNG output is temporarily routed to a GPIO pin, and a LabJack T7-Pro is is used to sample that pin and collect 50M bits of data. The .data file full of the generated TRNGs is put through the NIST SP 800-22 statistical test suite to determine randomness levels.
 
 ## Usage
 
@@ -11,7 +11,7 @@ The TRNG output is temporarily routed to a GPIO pin, and a LabJack T7-Pro is is 
 3. Ensure the DE-10 Nano is programmed with the TRNG.
 3. In a python environment, run `python lj_data.py`.
 4. Once ready, a file `trng_data.bin` will be generated with 50M bits of data.
-6. Use the NIST 800-22 STS to verify randomness.
+6. Use the NIST SP 800-22 to verify randomness.
 
 ![Testing Connections](../../docs/assets/testing_connections.jpg)
 
@@ -26,14 +26,14 @@ The TRNG output is temporarily routed to a GPIO pin, and a LabJack T7-Pro is is 
 
 ### Test 1 & 2
 
-- NIST Test using the python function showed mostly faliures, while the official NIST Test compared multiple bitstreams and verified even more faliures. Significant faliures such as these point to Quartus optimizing out some of the TRNG architecture and/or timing issues.
+- NIST testing using the python function showed mostly faliures, while the official NIST SP 800-22 compared multiple bitstreams and verified even more faliures. Significant faliures such as these point to Quartus optimizing out some of the TRNG architecture and/or timing issues.
 
 - [Test 1](outputs/nist_results_v1_b1.txt)
 - [Test 2](outputs/nist_results_v2_b1.txt)
 
 ### Test 3
 
-- It was verified that Quartus was not optimizing any necessary information, and , and significant improvements were observed. But, there was still evidence of a significant bias to the `1` bit.
+- It was verified that Quartus was not optimizing any necessary information after some debugging and syncrhonization issues were resolved, and significant improvements were observed. But, there was still evidence of a significant bias to the `1` bit.
 
 - [Test 3](outputs/nist_results_v3_b1.txt)
 

@@ -21,7 +21,7 @@
 - Von-Neumann Correction/Whitened LFSR Post-Mixing
 - AES-128-CBC Encryption/Decryption with OpenSSL
 
-## 💡 Acknowledgements
+## Acknowledgements
 
 - Repository template provided by Trevor Vannoy of MSU Bozeman for the purposes of **EELE 467**.
 
