@@ -8,7 +8,7 @@ This is a HPS-to-FPGA system for a **True Random Number Generator (TRNG).** Rand
 
 | **Register #**  | **Offset** | **Name** | **Physical Address**  |
 | :--- | :---: | :---: | ---: |
-| 00 | 0x0564F0 | TRNG Numbers | 0xFF2564F0 |
+| 00 | 0x000000 | TRNG Numbers | 0xFF200000 |
 
 ## System Overview
 

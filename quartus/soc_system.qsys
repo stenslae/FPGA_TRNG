@@ -9,6 +9,14 @@
    categories="System" />
  <parameter name="bonusData"><![CDATA[bonusData 
 {
+   element TRNG_0
+   {
+      datum _sortIndex
+      {
+         value = "3";
+         type = "int";
+      }
+   }
    element fpga_clk
    {
       datum _sortIndex
@@ -30,19 +38,11 @@
          type = "boolean";
       }
    }
-   element led_patterns_avalon_0
-   {
-      datum _sortIndex
-      {
-         value = "2";
-         type = "int";
-      }
-   }
    element master_0
    {
       datum _sortIndex
       {
-         value = "3";
+         value = "2";
          type = "int";
       }
    }
@@ -330,20 +330,16 @@
  <interface name="hps_io" internal="hps.hps_io" type="conduit" dir="end" />
  <interface name="hps_spim0" internal="hps.spim0" />
  <interface name="hps_spim0_sclk_out" internal="hps.spim0_sclk_out" />
- <interface
-   name="led_patterns_avalon_0_export"
-   internal="led_patterns_avalon_0.export"
-   type="conduit"
-   dir="end" />
  <interface name="memory" internal="hps.memory" type="conduit" dir="end" />
  <interface name="reset" internal="fpga_clk.clk_in_reset" type="reset" dir="end" />
- <module name="fpga_clk" kind="clock_source" version="24.1" enabled="1">
+ <module name="TRNG_0" kind="TRNG" version="1.0" enabled="1" />
+ <module name="fpga_clk" kind="clock_source" version="25.1" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
   <parameter name="inputClockFrequency" value="0" />
   <parameter name="resetSynchronousEdges" value="DEASSERT" />
  </module>
- <module name="hps" kind="altera_hps" version="24.1" enabled="1">
+ <module name="hps" kind="altera_hps" version="25.1" enabled="1">
   <parameter name="ABSTRACT_REAL_COMPARE_TEST" value="false" />
   <parameter name="ABS_RAM_MEM_INIT_FILENAME" value="meminit" />
   <parameter name="ACV_PHY_CLK_ADD_FR_PHASE" value="0.0" />
@@ -874,14 +870,9 @@
   <parameter name="use_default_mpu_clk" value="true" />
  </module>
  <module
-   name="led_patterns_avalon_0"
-   kind="led_patterns_avalon"
-   version="1.0"
-   enabled="1" />
- <module
    name="master_0"
    kind="altera_jtag_avalon_master"
-   version="24.1"
+   version="25.1"
    enabled="1">
   <parameter name="AUTO_DEVICE" value="5CSEBA6U23I7" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
@@ -894,53 +885,49 @@
  </module>
  <connection
    kind="avalon"
-   version="24.1"
+   version="25.1"
    start="hps.h2f_lw_axi_master"
-   end="led_patterns_avalon_0.avalon_slave_0">
+   end="TRNG_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
    kind="avalon"
-   version="24.1"
+   version="25.1"
    start="master_0.master"
-   end="led_patterns_avalon_0.avalon_slave_0">
+   end="TRNG_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
+ <connection kind="clock" version="25.1" start="fpga_clk.clk" end="master_0.clk" />
+ <connection kind="clock" version="25.1" start="fpga_clk.clk" end="TRNG_0.clock" />
  <connection
    kind="clock"
-   version="24.1"
-   start="fpga_clk.clk"
-   end="led_patterns_avalon_0.clk" />
- <connection kind="clock" version="24.1" start="fpga_clk.clk" end="master_0.clk" />
- <connection
-   kind="clock"
-   version="24.1"
+   version="25.1"
    start="fpga_clk.clk"
    end="hps.h2f_lw_axi_clock" />
  <connection
    kind="reset"
-   version="24.1"
+   version="25.1"
    start="fpga_clk.clk_reset"
    end="master_0.clk_reset" />
  <connection
    kind="reset"
-   version="24.1"
+   version="25.1"
    start="fpga_clk.clk_reset"
-   end="led_patterns_avalon_0.rst" />
+   end="TRNG_0.reset_sink" />
  <connection
    kind="reset"
-   version="24.1"
+   version="25.1"
    start="hps.h2f_reset"
    end="master_0.clk_reset" />
  <connection
    kind="reset"
-   version="24.1"
+   version="25.1"
    start="hps.h2f_reset"
-   end="led_patterns_avalon_0.rst" />
+   end="TRNG_0.reset_sink" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>

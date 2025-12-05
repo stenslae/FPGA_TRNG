@@ -2,9 +2,11 @@
 
 ## Overview
 
-This is a HPS-to-FPGA system for a **True Random Number Generator (TRNG).** Random numbers, with an estimated effective bitrate >60kHz, are generated and rolled into the 32-bit memory-mapped register.
+This is a HPS-to-FPGA system for a **True Random Number Generator (TRNG).**
 
 ## System
+
+- [VHDL Files](../hdl/trng/)
 
 1. XOR Chains of 8 **Ring Oscillators** are the primary source of entropy. 
 2. **MUlti Ring-Oscillator (MUROs)** were built, where multiple ring oscilators are sampled after a divided count of ring oscillator.
@@ -20,17 +22,11 @@ This is a HPS-to-FPGA system for a **True Random Number Generator (TRNG).** Rand
 
 ![Ring Oscillator Diagram](assets/muro_circuit_diagram.png)
 
-## Address Map Table
-
-| **Register #**  | **Offset** | **Name** | **Physical Address**  |
-| :--- | :---: | :---: | ---: |
-| 00 | 0x0564F0 | TRNG Numbers | 0xFF2564F0 |
-
 ## Randomness Results
 
 - [Full Testing](testing/README.md)
 
-- Summary: The FPGA True Random Number Generator is statistically random according to NIST SP 8000-22 V2.1.2 Criteria.
+- Summary: The FPGA True Random Number Generator is statistically random according to NIST SP 800-22 V2.1.2 Criteria.
 
 | **Test**  | **P-Value** | **Score** | **Pass/Fail?** |
 | :--- | :---: | :---: | ---: |
