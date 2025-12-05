@@ -30,12 +30,22 @@ int main(int argc, char *argv[]){
     fread(plaintext, 1, file_size, fptr);
     plaintext[file_size] = '\0';
 
+    // Open Device Driver
+    FILE *driver;
+	size_t ret;	
+	uint32_t val;
+
+	driver = fopen("/dev/trng" , "rb+" );
+	if (driver == NULL) {
+		printf("failed to open file\n");
+		exit(1);
+	}
+
     // Get values from memory register for encryption
     uint32_t read[8];
     for (int i=0; i<8; i++){
-        //TODO: REPLACE WITH DRIVER READ
-        read[i]=0x12345678;
-        //read[i] = read_trng_register_from_driver();
+        ret = fseek(driver, 0, SEEK_SET);
+        ret = fread(&read[i], 4, 1, driver);
         usleep(100);
     } 
 

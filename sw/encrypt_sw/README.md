@@ -7,7 +7,7 @@
 ```
 
 ### Description
-Takes file and uses a random key to encrypt the file in AES-128. Outputs the key and encrypted data into separate files.
+Takes file and uses a random key and IV to encrypt the file in AES-128. Outputs the key and encrypted data into separate files.
 
 ### Arguments
 - `-h`  
