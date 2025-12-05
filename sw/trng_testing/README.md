@@ -48,3 +48,7 @@ The TRNG output is temporarily routed to a GPIO pin, and a LabJack T7-Pro is is 
 - Using the improved architecture, additional MUROs were added to increase the collected entropy and throttling issues were fixed. 50M bits were tested to generate the final result metrics.
 
 - [Final Test](outputs/nist_results_v5_b1.txt)
+
+- The NIST SP 800-90B testing was used for final verification, and all metrics passed. A notable features is that entropy was `0.9981`, which shows successful entropy extraction on the FPGA.
+
+- [Extra SP 800-90B](outputs/nist_results_v5_b2.txt)

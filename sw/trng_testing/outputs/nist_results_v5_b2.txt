@@ -1,0 +1,77 @@
+Loaded 7243683 samples of 256 distinct 8-bit-wide symbols
+Number of Binary samples: 57949464
+Calculating baseline statistics...
+        Raw Mean: 127.632493
+        Median: 128.000000
+        Binary: false
+
+Bitstring MCV Estimate: mode = 29003109, p-hat = 0.50048968528854731, p_u = 0.50065887041009127
+h': 0.998100
+Chi square independence
+        score = 65364.106099
+        degrees of freedom = 65280
+        p-value = 0.407294
+
+Chi square goodness of fit
+        score = 2328.522618
+        degrees of freedom = 2295
+        p-value = 0.307749
+
+** Passed chi square tests
+
+Literal Longest Repeated Substring results
+        P_col: 0.003906
+        Length of LRS: 5
+        Pr(X >= 1): 1.000000
+** Passed length of longest repeated substring test
+
+Beginning initial tests...
+
+Initial test results
+              excursion: 259908
+     numDirectionalRuns: 4.82943e+06
+     lenDirectionalRuns: 10
+  numIncreasesDecreases: 3.63619e+06
+          numRunsMedian: 3.62255e+06
+          lenRunsMedian: 22
+           avgCollision: 20.6951
+           maxCollision: 75
+         periodicity(1): 28380
+         periodicity(2): 28287
+         periodicity(8): 28435
+        periodicity(16): 28213
+        periodicity(32): 28582
+          covariance(1): 1.17991e+11
+          covariance(2): 1.17997e+11
+          covariance(8): 1.17993e+11
+         covariance(16): 1.18025e+11
+         covariance(32): 1.18012e+11
+            compression: 7.73262e+06
+
+Beginning permutation tests... these may take some time
+ 93.86% of Permutation test rounds, 100.00% of Permutation tests
+
+                statistic  C[i][0]  C[i][1]  C[i][2]
+----------------------------------------------------
+                excursion       6       0      96
+       numDirectionalRuns       6       0       8
+       lenDirectionalRuns       2       4       8
+    numIncreasesDecreases       6       0      24
+            numRunsMedian       6       0      19
+            lenRunsMedian       4       2       5
+             avgCollision     156       0       6
+             maxCollision      41       4       2
+           periodicity(1)       6       0      11
+           periodicity(2)       6       0       9
+           periodicity(8)       6       0      47
+          periodicity(16)      22       0       6
+          periodicity(32)       6       0     121
+            covariance(1)      19       0       6
+            covariance(2)       6       0       6
+            covariance(8)       6       0       6
+           covariance(16)       6       0      56
+           covariance(32)       6       0      10
+              compression       6       0       6
+(* denotes failed test)
+
+** Passed IID permutation tests
