@@ -123,11 +123,11 @@ The FPGA True Random Number Generator provides a near-ideal entropy source accor
    - **Mode:** 128 *(Best Score 128)*
    - **P-Hat:** 0.50048968528854731 *(Best Score 0.5)*
 
-- Permutation, Chi-Square, Longest Repeated Substring, and Permutation Tests Passed.
+- Chi-Square, Longest Repeated Substring, and Permutation Tests Passed.
 
 ## Takeaways
 
-This project was extremely insightful in refining VHDL scripting and debugging techniques, along with understanding digital circuitry and clock synchronization within FPGA fabric. But those skills can be refined anywhere. This project specifically taught me these things:
+This project was extremely insightful in refining VHDL scripting and debugging techniques, along with understanding digital circuitry and clock synchronization within FPGA fabric. But, those skills can be refined anywhere. This project specifically taught me these things:
 
 ### Entropy is Fragile
 
@@ -139,11 +139,11 @@ Primarily, conditioning vastly improved the level of randomness within this syst
 
 An unexpected takeaway from this project was due to hardware limitation. It was determined that **statistically strong TRNGs are still possible to develop when only low-cost equipment is available.** Despite being stuck sampling my TRNG at a breakneck speed of 3.3kHz overnight, I was able test an environment of natural thermal drift that the TRNG should be expected to experience if it were to be used in real-world applications.
 
-Most significantly, by being stuck using Quartus Lite, I found out **ring-oscillator based TRNGs can work without floorplanning**. Statistically strong entropy was still produced without ideal placement of entropy sources, as long as the correct countermeasures are implemented. By adding spacial diveristy with more MUROs and increasing jitter accumulation with a slower divider statistical randomness was achieved despite this limitation. Take that, well-funded hardware security labs.
+And, most significantly, by using Quartus Lite, I found out **ring-oscillator based TRNGs can work without floorplanning**. Statistically strong entropy was still produced without ideal placement of entropy sources, as long as the correct countermeasures are implemented. By adding spacial diveristy with more MUROs and increasing jitter accumulation with a slower divider, statistical randomness was achieved despite this limitation. Take that, well-funded hardware security labs.
 
 ### Future Ideas
 
-Lastly, this system provides a great sandbox for potential exploits, because why build something "secure" without trying to make it insecure? Intentionally this time- hopefully Quartus Lite is done optimizing out my "combinational loops." Further ideas for explorations can be found in the [following list](expansion_ideas.md), and this repo will be updated if I do actually get around to doing those!
+Lastly, this system provides a great sandbox for potential exploits, because why build something "secure" without trying to make it insecure? Intentionally this time- hopefully Quartus Lite is done optimizing out my "combinational loops"... Further ideas can be found in [this expansion ideas list](expansion_ideas.md), and this repo will be updated if I do actually get around to doing those!
 
 ## References
 
