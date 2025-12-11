@@ -1,10 +1,10 @@
-# True Random Number Generator (TRNG) Report
+# Implementing a True Random Number Generator on an FPGA
 
 ## Table of Contents
 
 1. [Introduction](#introduction)
    - [Project Goals](#project-goals)
-   - [TRNG Background](#trng-background)
+   - [Background](#background)
 
 2. [System Architecture](#system-architecture)
    - [VHDL Structure](#vhdl-structure)
@@ -23,15 +23,18 @@
 
 ### Project Goals
 
-- Software PRNGs are cool. But analog noise is cooler. With this project, a **true random number generator (TRNG)** was implemented on an SoC FPGA. The randomness quality was evaluated using **NIST SP 800-22** standards.
+- Software PRNGs are cool, but **analog noise is cooler.** With this project, a **true random number generator (TRNG)** was implemented on an SoC FPGA. The randomness quality was evaluated using **NIST SP 800-22** and **NIST SP 800-90B** standards.
 
-### TRNG Background
+### Background
 
-- **True Random Number Generators** derive randomness from physical processes, while PRNGs are deterministic and use math.
+- A **System on Chip (SoC) Field-Programmable Gate Array (FPGA)** is an integrated circuit (IC) that combines a **Hard Processing System,** a dedicated CPU, with **FPGA Fabric,** which can be reprogrammmed repeatedly after manufacturing. The fabric is especially useful as the hardware itself is physically being changed within the IC.
+- **True Random Number Generators** (TRNGs) derive randomness from physical processes (entropy), while PRNGs are deterministic and use mathematical algorithms. TRNGs are essential in cryptography because predictable numbers can compromise security.
 - This system's primary entropy source is **ring oscillators**, which exploit **thermal noise and jitter in electronics** for unpredictable bit generation.
-- These generated bits often contain **bias or correlation**, so post-processing ensures uniform randomness.
-- **Von-Neumann correction** removes bias by discarding consecutive identical bits.
-- **LFSR-based whitening** spreads entropy across the output bits by using linear feedback.
+- These generated bits often contain **bias or correlation**, so post-processing ensures uniform randomness. The following conditioning was implemented:
+   - **Von-Neumann correction** removes bias by discarding consecutive identical bits.
+   - **LFSR-based whitening** spreads entropy across the output bits by using linear feedback, reducing correlations.
+
+> A famous TRNG is **[Cloudflare's Lavarand](https://en.wikipedia.org/wiki/Lavarand)**, which sources entropy from pixel imaging of a wall of lava lamps! Fun fact- It uses SHA-1 Hashing for post-processing, which prevents reversibility of the entropy patterns (since hashing is computationally infeasible to reverse).
 
 ## System Architecture
 
@@ -96,7 +99,7 @@ By using more ring oscillators, better entropy can be derived, but this increase
 Additionally, the sampling frequency of the 
 
 
-## Resources
+## References
 
 - Kubíček, Jiří. "Data Whitening Used in RF." Kubicek Blog, 2024.
 - Le, Jin, et al. "An efficient and stable composed entropy extraction method for FPGA-based RO PUF." IEICE Electronics Express, 2020.
